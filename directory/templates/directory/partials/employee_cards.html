@@ -1,0 +1,19 @@
+<div class="grid">
+    {% for emp in employees %}
+        <div class="card">
+            <div class="name">
+                👤 {{ emp.last_name }} {{ emp.first_name }}
+            </div>
+
+            <div class="phone">
+                📞 {{ emp.phone|default:"—" }}
+            </div>
+
+            <div class="email">
+                ✉️ {{ emp.email|default:"—" }}
+            </div>
+        </div>
+    {% empty %}
+        <p>Нічого не знайдено 😔</p>
+    {% endfor %}
+</div>
