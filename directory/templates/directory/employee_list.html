@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Телефонний довідник</title>
+</head>
+<body>
+
+<h1>Телефонний довідник</h1>
+
+<form method="get">
+    <input type="text" name="q" placeholder="Пошук...">
+    <button type="submit">Шукати</button>
+</form>
+
+<ul>
+    {% for emp in employees %}
+        <li>
+            {{ emp.last_name }} {{ emp.first_name }} — {{ emp.phone }}
+        </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
