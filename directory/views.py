@@ -6,7 +6,7 @@ from .models import Employee
 def employee_list(request):
     query = request.GET.get('q', '').strip()
 
-    employees = Employee.objects.all()
+    employees = Employee.objects.prefetch_related('positions__org_unit')
 
     if query:
         employees = employees.filter(
