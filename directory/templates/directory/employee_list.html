@@ -11,7 +11,6 @@
 
 <div class="container py-5">
 
-    <!-- Заголовок -->
     <div class="text-center mb-4">
         <h1 class="fw-bold">☎️ Телефонний довідник</h1>
     </div>
@@ -22,7 +21,6 @@
 
             <form method="get">
 
-                <!-- 🔍 Google-style пошук -->
                 <div class="input-group mb-3 shadow-sm rounded-pill overflow-hidden">
 
                     <input type="text"
@@ -78,24 +76,21 @@
                     <div class="card-body">
 
                         <h5 class="card-title mb-2">
-                            {{ emp.last_name }} {{ emp.first_name }}
+                            {{ emp.middle_name }}
                         </h5>
 
-                        {% if emp.middle_name %}
-                            <p class="text-muted mb-2">
-                                {{ emp.middle_name }}
-                            </p>
-                        {% endif %}
-
+                        <p class="text-muted mb-2">
+                            {{ emp.first_name }} {{ emp.last_name }}
+                        </p>
+                        
                         <p class="mb-1">
                             📞 {{ emp.phone|default:"—" }}
                         </p>
 
-                        <p class="mb-2">
+                        <!-- <p class="mb-2">
                             ✉️ {{ emp.email|default:"—" }}
-                        </p>
+                        </p> -->
 
-                        <!-- Посади -->
                         {% for pos in emp.positions.all %}
                             <span class="badge bg-secondary">
                                 {{ pos.title }} ({{ pos.org_unit.name }})

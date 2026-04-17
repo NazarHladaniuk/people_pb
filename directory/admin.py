@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Employee, OrgUnit, Position
+from .models import Employee, OrgUnit, Position, Status
 
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('last_name', 'first_name', 'phone')
-    search_fields = ('last_name', 'first_name', 'phone')
+    list_display = ('middle_name', 'first_name', 'last_name', 'phone')
+    search_fields = ('middle_name', 'first_name', 'last_name', 'phone')
 
 
 @admin.register(OrgUnit)
@@ -17,3 +17,7 @@ class OrgUnitAdmin(admin.ModelAdmin):
 @admin.register(Position)
 class PositionAdmin(admin.ModelAdmin):
     list_display = ('employee', 'org_unit', 'title')
+
+@admin.register(Status)
+class StatusAdmin(admin.ModelAdmin):
+    list_display = ('name', 'short_name')
