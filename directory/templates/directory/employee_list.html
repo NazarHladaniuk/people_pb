@@ -13,16 +13,60 @@
 
     <!-- Заголовок -->
     <div class="text-center mb-4">
-        <h1 class="fw-bold">Телефонний довідник</h1>
+        <h1 class="fw-bold">☎️ Телефонний довідник</h1>
     </div>
 
-    <!-- Пошук -->
+    <!-- Пошук + сортування -->
     <div class="row justify-content-center mb-4">
-        <div class="col-md-6">
-            <form method="get" class="d-flex">
-                <input type="text" name="q" class="form-control me-2" placeholder="Пошук по прізвищу або телефону...">
-                <button class="btn btn-primary">Шукати</button>
+        <div class="col-md-8">
+
+            <form method="get">
+
+                <!-- 🔍 Google-style пошук -->
+                <div class="input-group mb-3 shadow-sm rounded-pill overflow-hidden">
+
+                    <input type="text"
+                        name="q"
+                        value="{{ query|default:'' }}"
+                        class="form-control border-0 px-4"
+                        placeholder="Пошук по прізвищу або телефону..."
+                        style="height: 48px;">
+
+                    <button class="btn btn-light px-4 border-0">
+                        🔍︎
+                    </button>
+
+                </div>
+
+                <!-- 🔽 Сортування (по центру під пошуком) -->
+                <div class="d-flex justify-content-center">
+                    <select name="sort"
+                            class="form-select w-auto text-center"
+                            onchange="this.form.submit()">
+
+                        <option value="">Сортування</option>
+
+                        <option value="name_asc" {% if current_sort == 'name_asc' %}selected{% endif %}>
+                            Прізвище А-Я
+                        </option>
+
+                        <option value="name_desc" {% if current_sort == 'name_desc' %}selected{% endif %}>
+                            Прізвище Я-А
+                        </option>
+
+                        <option value="phone_asc" {% if current_sort == 'phone_asc' %}selected{% endif %}>
+                            Телефон ↑
+                        </option>
+
+                        <option value="phone_desc" {% if current_sort == 'phone_desc' %}selected{% endif %}>
+                            Телефон ↓
+                        </option>
+
+                    </select>
+                </div>
+
             </form>
+
         </div>
     </div>
 

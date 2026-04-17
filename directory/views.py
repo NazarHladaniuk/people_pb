@@ -1,28 +1,34 @@
 from django.shortcuts import render
-from django.db.models import Q
 from .models import Employee
 
 
 def employee_list(request):
-    query = request.GET.get('q', '').strip()
+    query = request.GET.get('q')
+    sort = request.GET.get('sort')
 
     employees = Employee.objects.prefetch_related('positions__org_unit')
 
+    # 🔍 Пошук
     if query:
         employees = employees.filter(
-            Q(first_name__icontains=query) |
-            Q(last_name__icontains=query) |
-            Q(middle_name__icontains=query) |
-            Q(phone__icontains=query) |
-            Q(email__icontains=query)
+            last_name__icontains=query
         )
 
-    if request.headers.get('HX-Request'):
-        return render(request, 'directory/partials/employee_cards.html', {
-            'employees': employees
-        })
+    # 🔽 Сортування
+    sort_options = {
+        'name_asc': 'last_name',
+        'name_desc': '-last_name',
+        'phone_asc': 'phone',
+        'phone_desc': '-phone',
+    }
+
+    if sort in sort_options:
+        employees = employees.order_by(sort_options[sort])
+    else:
+        employees = employees.order_by('last_name')  # дефолт
 
     return render(request, 'directory/employee_list.html', {
         'employees': employees,
+        'current_sort': sort,
         'query': query,
     })
