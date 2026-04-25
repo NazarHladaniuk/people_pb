@@ -4,8 +4,8 @@ from .models import Employee, OrgUnit, Position, Status
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('middle_name', 'first_name', 'last_name', 'phone')
-    search_fields = ('middle_name', 'first_name', 'last_name', 'phone')
+    list_display = ('last_name', 'first_name', 'middle_name', 'phone')
+    search_fields = ('last_name', 'first_name', 'middle_name', 'phone')
 
 
 @admin.register(OrgUnit)

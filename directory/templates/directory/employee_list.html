@@ -5,6 +5,7 @@
     <title>Телефонний довідник</title>
 
     <!-- Bootstrap -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -36,31 +37,68 @@
 
                 </div>
 
-                <!-- 🔽 Сортування (по центру під пошуком) -->
-                <div class="d-flex justify-content-center">
-                    <select name="sort"
-                            class="form-select w-auto text-center"
-                            onchange="this.form.submit()">
+                <div class="d-flex justify-content-center mt-2">
 
-                        <option value="">Сортування</option>
+                    <div class="dropdown">
 
-                        <option value="name_asc" {% if current_sort == 'name_asc' %}selected{% endif %}>
-                            Прізвище А-Я
-                        </option>
+                        <!-- Кнопка -->
+                        <button class="btn btn-light rounded-pill shadow-sm px-4 py-2 dropdown-toggle border-0"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                style="min-width: 240px;">
 
-                        <option value="name_desc" {% if current_sort == 'name_desc' %}selected{% endif %}>
-                            Прізвище Я-А
-                        </option>
+                            {% if current_sort == 'name_asc' %}
+                                Прізвище А-Я
+                            {% elif current_sort == 'name_desc' %}
+                                Прізвище Я-А
+                            {% elif current_sort == 'phone_asc' %}
+                                Телефон ⬆️
+                            {% elif current_sort == 'phone_desc' %}
+                                Телефон ⬇️
+                            {% else %}
+                                Сортування
+                            {% endif %}
 
-                        <option value="phone_asc" {% if current_sort == 'phone_asc' %}selected{% endif %}>
-                            Телефон ↑
-                        </option>
+                        </button>
 
-                        <option value="phone_desc" {% if current_sort == 'phone_desc' %}selected{% endif %}>
-                            Телефон ↓
-                        </option>
+                        <!-- Меню -->
+                        <ul class="dropdown-menu w-100 mt-2 shadow border-0 rounded-4 text-center">
 
-                    </select>
+                            <li>
+                                <a class="dropdown-item"
+                                href="?q={{ query|default:'' }}&sort=name_asc">
+                                    Прізвище А-Я
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item"
+                                href="?q={{ query|default:'' }}&sort=name_desc">
+                                    Прізвище Я-А
+                                </a>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li>
+                                <a class="dropdown-item"
+                                href="?q={{ query|default:'' }}&sort=phone_asc">
+                                    Телефон ⬆️
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item"
+                                href="?q={{ query|default:'' }}&sort=phone_desc">
+                                    Телефон ⬇️
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
                 </div>
 
             </form>
@@ -74,28 +112,29 @@
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
+                        <div class="row">
+                            <h5 class="card-title col-md-8">
+                                {{ emp.last_name }}
+                            </h5>
 
-                        <h5 class="card-title mb-2">
-                            {{ emp.middle_name }}
-                        </h5>
+                            <p class="col-md-4 text-end">
+                                📞 {{ emp.phone|default:"—" }}
+                            </p>
+
+                        </div>
 
                         <p class="text-muted mb-2">
-                            {{ emp.first_name }} {{ emp.last_name }}
+                            {{ emp.first_name }} {{ emp.middle_name }}
                         </p>
                         
-                        <p class="mb-1">
-                            📞 {{ emp.phone|default:"—" }}
+                        <p>
+                            💼
+                            {% for pos in emp.positions.all %}
+                                <span class="badge bg-secondary">
+                                    {{ pos.title }} ({{ pos.org_unit.name }})
+                                </span>
+                            {% endfor %}
                         </p>
-
-                        <!-- <p class="mb-2">
-                            ✉️ {{ emp.email|default:"—" }}
-                        </p> -->
-
-                        {% for pos in emp.positions.all %}
-                            <span class="badge bg-secondary">
-                                {{ pos.title }} ({{ pos.org_unit.name }})
-                            </span>
-                        {% endfor %}
 
                     </div>
                 </div>
